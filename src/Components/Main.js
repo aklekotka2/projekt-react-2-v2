@@ -5,15 +5,15 @@ import CurrencyArea from "./CurrencyArea";
 import Loader from "./Loader";
 
 const Main = () => {
-	const [isErr, setIsErr] = useState("");
+	const [error, setError] = useState("");
 	const [isLoader, setIsLoader] = useState(false);
 	const [currencyVal, setCurrencyVal] = useState("EUR");
+	const [amountVal, setAmountVal] = useState(0);
+	const [exchangeValue, setExchangeValue] = useState("");
 
 	const onAcceptCurrency = (value) => {
 		setCurrencyVal(value);
 	};
-
-	const [amountVal, setAmountVal] = useState(0);
 
 	const onAcceptAmount = (value) => {
 		if (value > 0) {
@@ -27,8 +27,6 @@ const Main = () => {
 		setExchangeValue((currency * amountVal).toFixed(2));
 	}
 
-	const [exchangeValue, setExchangeValue] = useState("");
-	let errMSg;
 	function exchange(e) {
 		e.preventDefault();
 
@@ -40,8 +38,7 @@ const Main = () => {
 					count(data.rates[0].mid);
 				})
 				.catch((error) => {
-					setIsErr(error);
-					errMSg = error;
+					setError(error);
 				})
 				.finally(setIsLoader(false));
 		} else {
@@ -71,7 +68,7 @@ const Main = () => {
 						</h2>
 					</section>
 					<div className="api-err">
-						{isErr ? "Wystąpił błąd:" + { errMSg } : ""}
+						{error ? "Wystąpił błąd:" + { error } : ""}
 					</div>
 				</div>
 			</main>
